@@ -1,0 +1,17 @@
+<!doctype html>
+<title>Weather@Klinten</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="style.css") }}">
+<h1>Weather inside and outside</h1>
+
+<p style="color:MediumSeaGreen;">Timestamp, Temp over computer, Humidity over computer, Temp doorway, Humidity doorway, Temp outside, Humidity outside, Weather status</p>
+
+<table border="1" cellpadding="5" cellspacing="5">
+    {% for row in data %}
+        <tr>
+        {% for d in row %}
+            <td>{{ d }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+

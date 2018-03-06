@@ -1,0 +1,203 @@
+<head>
+  <meta charset="utf-8" />
+  <title>temps!</title>
+  <!-- import plugin script -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js'></script>
+</head>
+
+The chart is then defined as a HTML5 canvas element:
+<h1>All temps displayed</h1>
+<!-- bar chart canvas element -->
+<canvas id="tempsChart" width="900" height="600"></canvas>
+<p id="caption">The chart is displaying a simple line chart.</p>
+
+<script>
+
+var tempCanvas = document.getElementById("tempsChart");
+var ctx = tempCanvas.getContext("2d");
+
+// Global parameters:
+// do not resize the chart canvas when its container does (keep at 600x400px)
+Chart.defaults.global.responsive = false;
+
+// BG-color had single quote...
+
+// Data - lines
+var OutData = {
+      label: 'Outside',
+      data: [{% for item in Out %}
+                {{item}},
+              {% endfor %}],
+
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      pointBorderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      spanGaps: false,
+
+      yAxisID: "y-axis-Out"
+};
+
+var DatorData = {
+      label: 'Dator',
+      data: [{% for item in Dator %}
+                {{item}},
+              {% endfor %}],
+
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      pointBorderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [], 
+      borderDashOffset: 0.0,   
+      borderJoinStyle: 'miter',
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,    
+      pointHitRadius: 10,
+      spanGaps: false,
+
+      yAxisID: "y-axis-Dator"
+};
+
+var DoorData = {
+      label: 'Door',
+      data: [{% for item in Door %}
+                {{item}},
+              {% endfor %}],
+
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      pointBorderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [], 
+      borderDashOffset: 0.0,   
+      borderJoinStyle: 'miter',
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,    
+      pointHitRadius: 10,
+      spanGaps: false,
+
+      yAxisID: "y-axis-Door"
+};
+
+var OverBedData = {
+      label: 'Over Bed',
+      data: [{% for item in OverBed %}
+                {{item}},
+              {% endfor %}],
+
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      pointBorderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [], 
+      borderDashOffset: 0.0,   
+      borderJoinStyle: 'miter',
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,    
+      pointHitRadius: 10,
+      spanGaps: false,
+
+      yAxisID: "y-axis-OverBed"
+};
+
+
+var UnderBedData = {
+      label: 'Under Bed',
+      data: [{% for item in UnderBed %}
+                {{item}},
+              {% endfor %}],
+
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      pointBorderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [], 
+      borderDashOffset: 0.0,   
+      borderJoinStyle: 'miter',
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,    
+      pointHitRadius: 10,
+      spanGaps: false,
+
+      yAxisID: "y-axis-UnderBed"
+};
+
+
+var tempData = {
+      labels: ["Out", "Dator", "Door", "Over Bed", "Under Bed"],
+      datasets: [OutData, DatorData, DoorData, OverBedData, UnderBedData]
+};
+
+var chartOptions = {
+      scales: {
+            yAxes: [{
+                  ticks: {
+                        min: 0,
+                        max: 30,
+                        stepSize: 1
+                        }
+                    }]
+               },
+      yAxes: [{
+            id: "y-axis-Out"
+            }, {
+            id: "y-axis-Dator"
+            }, {
+            id: "y-axis-Door"
+            }, {
+            id: "y-axis-UnderBed"
+            }, {
+            id: "y-axis-OverBed"
+            }]
+};
+
+var lineChart = new Chart(ctx, {
+      type:'line',
+      data: tempData,
+      options: chartOptions
+});
+
+
+</script>
